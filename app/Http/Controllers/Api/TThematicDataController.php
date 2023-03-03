@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
 use App\Helpers\ResponseFormatter;
-use App\Models\MainData;
 use App\Models\ThematicData;
+// use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+
 
 class TThematicDataController extends Controller
 {
@@ -22,7 +23,7 @@ class TThematicDataController extends Controller
             'code_thematic' => 'required|int|max:100',
             'title_thematic' => 'required|string',
             'name_opd' => 'required|string',
-            'code_main' => 'required|int'
+            'main_code' => 'required|int'
         ]);
 
         if ($validator->fails()) {
@@ -36,7 +37,7 @@ class TThematicDataController extends Controller
                 'code_thematic' => $request->code_thematic,
                 'title_thematic' => $request->title_thematic,
                 'name_opd' => $request->name_opd,
-                'code_main' => $request->code_main,
+                'main_code' => $request->main_code,
             ]
         );
         return response()->json([
