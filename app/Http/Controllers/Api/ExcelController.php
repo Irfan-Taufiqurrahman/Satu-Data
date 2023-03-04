@@ -25,12 +25,12 @@ class ExcelController extends Controller
         $file = $request->file('uploaded_file');
         try {
             $spreadsheet    = IOFactory::load($file->getRealPath());
-            $sheet          = $spreadsheet->getActiveSheet();
-            $row_limit      = $sheet->getHighestDataRow();
-            $coloum_limit   = $sheet->getHighestColumn();
-            $row_range      = range(1000, $row_limit);
-            $coloum_range   = range('F', $coloum_limit);
-            $startCount     = 2;
+            $sheet          = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            $dataResult     = $sheet;
+            $tempVar = [];
+            foreach ($dataResult[1] as $key => $Value) {
+                //
+            }
 
             $data = array();
         } catch (Exception $e) {
