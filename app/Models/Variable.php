@@ -9,14 +9,14 @@ class Variable extends Model
 {
     use HasFactory;
 
-    protected $table = "variable_table";
+    protected $table = "variables";
     protected $primaryKey = "varId";
 
-    // protected $fillable = [
-    //     'name',
-    //     'dataset_id',
-    //     'data',
-    // ];
+    protected $fillable = [
+        'name',
+        'id_dataset',
+        'data',
+    ];
 
     public function dataset()
     {
@@ -26,5 +26,29 @@ class Variable extends Model
     public function valuesData()
     {
         return $this->hasMany(value::class, 'valueId');
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDataset(): ?Dataset
+    {
+        return $this->id_dataset;
+    }
+
+    public function setDataset(string $datasetId): self
+    {
+        $this->id_dataset = $datasetId;
+
+        return $this;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\ExcelController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TMainDataController;
@@ -28,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/role/create', [RoleController::class, 'create']);
     Route::post('/auth/logout', [UserController::class, 'logout']);
     // return $request->user();
+    //Dataset
+    Route::post('/dataset/excel/import', [ExcelController::class, 'import']);
 });
 //MemberController@index
 //Main Data
@@ -38,6 +41,8 @@ Route::patch('/maindata/update/{id}', [TMainDataController::class, 'update']);
 Route::delete('/maindata/delete/{id}', [TMainDataController::class, 'delete']);
 //Theamtic Data
 Route::post('/thematicdata/store', [TThematicDataController::class, 'store']);
+
+// Route::post('/dataset/excel/import', 'App\Http\Controllers\Api\ExcelController@import');
 
 //login + register
 Route::post('/auth/register', [AdminController::class, 'register']);

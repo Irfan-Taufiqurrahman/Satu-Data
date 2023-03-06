@@ -16,6 +16,8 @@ class CreateDatasetsTable extends Migration
         Schema::create('datasets', function (Blueprint $table) {
             $table->id('datasetId');
             $table->string('title');
+            $table->string('name_excel');
+            $table->string('description');
             // $table->foreignId('id_variable')->references('varId')->on('variables')->onDelete('cascade');
             // $table->foreignId('id_value')->references('valueId')->on('values')->onDelete('cascade');
             // $table->file    
