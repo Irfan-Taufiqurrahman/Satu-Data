@@ -14,10 +14,10 @@ class CreateValuesTable extends Migration
     public function up()
     {
         Schema::create('values', function (Blueprint $table) {
-            $table->id('valueId');
+            $table->id('value_id');
             $table->string('content');
             $table->integer('row_id');
-            $table->foreignId('id_variable')->references('varId')->on('variables')->onDelete('cascade');
+            $table->foreignId('id_variable')->references('var_id')->on('variables')->onDelete('cascade');
             $table->foreignId('id_dataset')->references('datasetId')->on('datasets')->onDelete('cascade');
             $table->timestamps();
         });

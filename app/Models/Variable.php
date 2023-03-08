@@ -10,7 +10,7 @@ class Variable extends Model
     use HasFactory;
 
     protected $table = "variables";
-    protected $primaryKey = "varId";
+    protected $primaryKey = "var_id";
 
     protected $fillable = [
         'name',
@@ -25,7 +25,7 @@ class Variable extends Model
 
     public function valuesData()
     {
-        return $this->hasMany(value::class, 'valueId');
+        return $this->hasMany(value::class, 'value_id');
     }
 
     public function getName(): ?string

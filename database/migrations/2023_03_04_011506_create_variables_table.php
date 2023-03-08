@@ -14,7 +14,7 @@ class CreateVariablesTable extends Migration
     public function up()
     {
         Schema::create('variables', function (Blueprint $table) {
-            $table->id('varId');
+            $table->id('var_id');
             $table->string('name');
             $table->foreignId('id_dataset')->references('datasetId')->on('datasets')->onDelete('cascade');
             $table->timestamps();

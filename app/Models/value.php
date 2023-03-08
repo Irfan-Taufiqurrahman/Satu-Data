@@ -10,7 +10,7 @@ class value extends Model
     use HasFactory;
 
     protected $table = "values";
-    protected $primaryKey = "valueId";
+    protected $primaryKey = "value_id";
     protected $fillable = [
         'id_dataset',
         'id_variable',
@@ -20,7 +20,7 @@ class value extends Model
 
     public function variable()
     {
-        return $this->belongsTo(Variable::class, 'id_variable', 'variableId');
+        return $this->belongsTo(Variable::class, 'id_variable', 'var_id');
     }
 
     public function getDataset(): ?Dataset

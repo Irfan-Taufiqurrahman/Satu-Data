@@ -18,13 +18,38 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class ExcelController extends Controller
 {
-    public function indexList(Request $request)
+    public function indexList($id)
     {
-        // $lastInsertId = $Dataset->datasetId;
-        // $id = Dataset::where('datasetId', $lastInsertId)->first();
-        //     $id = $id->datasetId;
+        // $id = null;
+        $var_id = Variable::where('id_dataset', $id)->orderBy('var_id', 'asc')->get();
+        // $var_id = Variable::where(['id_dataset'], ['varId' => 'ASC'])->get();
+        $temp = [];
+        foreach ($var_id as $var) {
+            $temp[] = $var->getName() . " varchar";
+        }
+        $column = implode(', ', $temp);
 
-        // $var_id = Variable::where(['id_dataset', $id]);
+        $query = "
+        SELECT * 
+        FROM crosstab('SELECT a.row_id, b.var_id, a.content from 
+        values a join variables b on a.id_variable = b.var_id WHERE a.id_dataset = $id ORDER BY 1,2 ASC'::text)
+        ct(row_id integer, $column) ORDER BY ct.row_id;";
+
+        if (empty($column)) {
+            return response()->json([
+                'message' => 'No columns found for crosstab',
+            ], 400);
+        }
+
+        $setResult = DB::select($query);
+        // $obj = json_decode(json_encode($setResult));
+        // $result = $obj->fetchAll();
+        // return ($setResult);
+
+        return response()->json([
+            'message' => 'Indexing data excel successfull',
+            'data' => $setResult,
+        ], 200);
     }
 
     public function import(Request $request)
@@ -73,7 +98,7 @@ class ExcelController extends Controller
                 $var->setDataset($id);
                 $var->setName($Value);
                 $var->save();
-                $tempVar[] = $var->varId;
+                $tempVar[] = $var->var_id;
             }
 
             unset($dataResult[1]);
@@ -113,5 +138,10 @@ class ExcelController extends Controller
         //     'message' => 'Create Dataset Successfull',
         //     'data' => $Dataset,
         // ], 200);
+    }
+
+    public function delete($id)
+    {
+        //
     }
 }
