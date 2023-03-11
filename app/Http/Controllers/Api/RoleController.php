@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -21,9 +22,11 @@ class RoleController extends Controller
         return response()->json($response, Response::HTTP_OK);
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
+        DB::beginTransaction();
         $validator = Validator::make($request->all(), [
+            'id' => 'required|integer',
             'name' => 'required|string',
         ]);
 
@@ -35,11 +38,12 @@ class RoleController extends Controller
         }
         $current_date_time = Carbon::now();
         $role = Role::create([
+            'id' => $request->id,
             'name' => $request->name,
-            "created_at" => $current_date_time,
-            "updated_at" => $current_date_time,
+            'created_at' => $current_date_time,
+            'updated_at' => $current_date_time,
         ]);
-
+        DB::commit();
         return response()->json([
             'message' => 'Registration Successfull',
             'data' => $role,

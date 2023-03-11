@@ -25,8 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->middleware('isAdmin')->name('Admin');
     Route::delete('/admin/{id}', [AdminController::class, 'delete'])->middleware('isAdmin')->name('Admin');
     Route::patch('/user/{id}', [UserController::class, 'updateProfile']);
-    //masih error "create role"
-    Route::post('/role/create', [RoleController::class, 'create']);
+    Route::get('/role', [RoleController::class, 'index']);
+    Route::post('/role/store', [RoleController::class, 'store']);
     Route::post('/auth/logout', [UserController::class, 'logout']);
     // return $request->user();
     //Dataset

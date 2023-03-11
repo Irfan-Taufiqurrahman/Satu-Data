@@ -40,9 +40,6 @@ class AdminController extends Controller
             // 'user_photoProfile' => 'required|min:8|max:1024',
         ]);
 
-        // if ($request->file('user_photoProfile')) {
-        //     $validator['user_photoProfile'] = $request->file('user_photoPofile')->store('user_photoPofile');
-        // }
 
         if ($validator->fails()) {
             return response()->json([
