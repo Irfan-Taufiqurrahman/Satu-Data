@@ -9,6 +9,7 @@ use App\Models\value;
 use App\Models\Variable;
 use Exception;
 use Facade\FlareClient\Http\Response;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +19,28 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class ExcelController extends Controller
 {
+    public function indexDataset(Request $request)
+    {
+        $dataset = Dataset::all();
+        $id = $request->input('datasetId');
+
+        if ($id) {
+            $dataset = Dataset::find($id);
+            if ($dataset) {
+                return ResponseFormatter::success([
+                    'data' => $dataset,
+                    'message' => 'Dataset Berhasil diambil',
+                ]);
+            } else {
+                return ResponseFormatter::error(404, 'Dataset tidak ditemukan');
+            }
+        }
+        return ResponseFormatter::success([
+            'data' => $dataset,
+            'message' => 'Data Berhasil diambil',
+        ]);
+    }
+
     public function indexList($id)
     {
         // $id = null;
@@ -142,6 +165,17 @@ class ExcelController extends Controller
 
     public function delete($id)
     {
-        //
+        try {
+            $excel = Dataset::find($id);
+            $excel->delete();
+            return ResponseFormatter::success([
+                'message' => 'Main Data deleted successful',
+            ], 'Main Data deleted successfull', 500);
+        } catch (QueryException $error) {
+            return ResponseFormatter::error([
+                'message' => 'something went wrong',
+                'error' => $error,
+            ], 'Main Data not deleted', 500);
+        }
     }
 }

@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //Dataset
     Route::post('/dataset/excel/import', [ExcelController::class, 'import']);
     Route::get('/dataset/excel/{id}', [ExcelController::class, 'indexList']);
+    Route::get('/dataset/excel', [ExcelController::class, 'indexDataset']);
 });
 //MemberController@index
 //Main Data

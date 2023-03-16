@@ -91,8 +91,6 @@ class TThematicDataController extends Controller
         $thematicData->title_thematic = $request->title_thematic;
         $thematicData->name_opd = $request->name_opd;
 
-
-
         $thematicData->mainData()->associate($mainData);
         // This will trigger the mutator and set the custom ID
         $thematicData->custom_id = $request->code_thematic;
