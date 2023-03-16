@@ -19,6 +19,8 @@ class CreateThematicDataTable extends Migration
             $table->string('title_thematic')->unique();
             $table->foreignId('main_code')->references('code_main')->on('main_data')->onDelete('cascade');
             $table->string('name_opd')->unique();
+            $table->string('custom_id')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
