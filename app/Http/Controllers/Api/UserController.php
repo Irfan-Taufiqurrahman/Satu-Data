@@ -13,6 +13,38 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    //start of function register
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|min:2|max:100',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|max:100',
+            'confirm_password' => 'required|same:password',
+            // 'confirmed' => false,
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'role_id' => 2, // Assign role_id to 2
+            'password' => FacadesHash::make($request->password)
+        ]);
+
+        return response()->json([
+            'message' => 'Registration successful',
+            'data' => $user,
+        ], 200);
+    }
+    //end of function register
+
     //Start of function of login
     public function login(Request $request)
     {
@@ -20,18 +52,24 @@ class UserController extends Controller
             $request->validate([
                 'email' => ['required'],
                 'password' => ['required'],
+                // 'confirmed' => true,
             ]);
 
             $user = User::where('email', $request->email)->first();
             if (!FacadesHash::check($request->password, $user->password, [])) {
                 throw new \Exception('Invalid Credentials');
             }
+            if (!$user->confirmed) {
+                throw new \Exception('Your account has not been confirmed yet');
+            }
 
             $tokenResult = $user->createToken('authToken')->plainTextToken;
             return ResponseFormatter::success([
-                'access_token' => $tokenResult,
-                'token_type' => 'Bearer',
-                'user' => $user
+                "message" => "Successfully Logged in",
+                "token" => $tokenResult,
+                // 'access_token' => $tokenResult,
+                // 'token_type' => 'Bearer',
+                // 'user' => $user
             ], 'Authenticated');
         } catch (QueryException $error) {
             return ResponseFormatter::error([
@@ -71,13 +109,18 @@ class UserController extends Controller
         // return redirect()->route('');
     }
 
+    public function me(Request $request)
+    {
+        return response()->json([
+            'user' => auth()->user()
+        ], 200);
+    }
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json([
             'message' => 'User successfull logout',
         ], 200);
-        // $token =  $request->user()->currentAccessToken()->delete();
-        // return ResponseFormatter::success($token, 'Token Revoked');
     }
 }

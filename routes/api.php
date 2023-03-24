@@ -22,13 +22,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->middleware('isAdmin')->name('Admin');
     Route::delete('/admin/{id}', [AdminController::class, 'delete'])->middleware('isAdmin')->name('Admin');
+    Route::post('/admin/edit/{id}', [AdminController::class, 'update'])->middleware('isAdmin')->name('Admin');
     Route::patch('/user/{id}', [UserController::class, 'updateProfile']);
     Route::get('/role', [RoleController::class, 'index']);
     Route::post('/role/store', [RoleController::class, 'store']);
     Route::post('/auth/logout', [UserController::class, 'logout']);
+    Route::get('/me', [UserController::class, 'me']);
     // return $request->user();
     //Dataset
     Route::post('/dataset/excel/import', [ExcelController::class, 'import']);
@@ -60,5 +63,6 @@ Route::delete('/topicdata/delete/{id}', [TTopicDataController::class, 'delete'])
 // Route::post('/dataset/excel/import', 'App\Http\Controllers\Api\ExcelController@import');
 
 //login + register
-Route::post('/auth/register', [AdminController::class, 'register']);
+Route::post('/auth/admin/register', [AdminController::class, 'register']);
+Route::post('/auth/register', [UserController::class, 'register']);
 Route::post('/auth/login', [UserController::class, 'login']);
