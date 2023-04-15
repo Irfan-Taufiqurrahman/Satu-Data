@@ -17,10 +17,10 @@ class TMainDataController extends Controller
     {
         $main = MainData::all();
 
-        $id = $request->input('id');
+        $code_main = $request->input('code_main');
 
-        if ($id) {
-            $main = MainData::find($id);
+        if ($code_main) {
+            $main = MainData::find($code_main);
             if ($main) {
                 return ResponseFormatter::success([
                     'data' => $main,
@@ -30,10 +30,7 @@ class TMainDataController extends Controller
                 return ResponseFormatter::error(404, 'Data Main tidak ditemukan');
             }
         }
-        return ResponseFormatter::success([
-            'data' => $main,
-            'message' => 'Data Berhasil diambil',
-        ]);
+        return response()->json($main, 200);
     }
 
     public function store(Request $request)
@@ -55,10 +52,11 @@ class TMainDataController extends Controller
             'title_main' => $request->title_main,
         ]);
 
-        return response()->json([
-            'message' => 'Create Main Data successful',
-            'data' => $main,
-        ], 200);
+        // return response()->json([
+        //     'message' => 'Create Main Data successful',
+        //     'data' => $main,
+        // ], 200);
+        return response()->json($main, 200);
     }
 
     public function show(Request $request, $id)

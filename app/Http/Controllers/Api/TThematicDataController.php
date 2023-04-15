@@ -14,25 +14,35 @@ use Illuminate\Support\Facades\Validator;
 
 class TThematicDataController extends Controller
 {
-    public function index(Request $request)
+    // public function AllThematic(Request $request)
+    // {
+    //     $thematic = ThematicData::orderBy('code_thematic', 'asc')->get();
+    //     // $thematic = new ThematicData();
+    //     $id = $request->input('main_code');
+    //     if ($id) {
+    //         $thematic = ThematicData::where('main_code')->get();
+    //         if ($thematic) {
+    //             return ResponseFormatter::success([
+    //                 'data' => $thematic,
+    //                 'message' => 'Data Thematic Berhasil diambil',
+    //             ]);
+    //         } else {
+    //             return ResponseFormatter::error(404, 'Data Thematic tidak ditemukan');
+    //         }
+    //     }
+    //     return ResponseFormatter::success([
+    //         'data' => $thematic,
+    //         'message' => 'Data Berhasil diambil',
+    //     ]);
+    // }
+
+    public function index(Request $request, $mainCode)
     {
-        $thematic = ThematicData::orderBy('code_thematic', 'asc')->get();
-        $id = $request->input('id');
-        if ($id) {
-            $thematic = ThematicData::find($id);
-            if ($thematic) {
-                return ResponseFormatter::success([
-                    'data' => $thematic,
-                    'message' => 'Data Thematic Berhasil diambil',
-                ]);
-            } else {
-                return ResponseFormatter::error(404, 'Data Thematic tidak ditemukan');
-            }
-        }
-        return ResponseFormatter::success([
-            'data' => $thematic,
-            'message' => 'Data Berhasil diambil',
-        ]);
+        // Get all thematic data that has the specified main_code
+        $thematicData = ThematicData::where('main_code', $mainCode)->get();
+
+        // Return the thematic data as a response
+        return response()->json($thematicData);
     }
 
     // public function store(Request $request)
@@ -105,11 +115,6 @@ class TThematicDataController extends Controller
 
     public function show(Request $request, $id)
     {
-        // $validator = Validator::make($request->all(), [
-        //         'code_thematic' => 'required|integer',
-        //         'title_thematic' => 'required',
-        //         'name_opd' => 'required',
-        //     ]);
         $thematic = Thematicdata::findOrFail($id);
         $error = ResponseFormatter::error();
         if (is_null($thematic)) {

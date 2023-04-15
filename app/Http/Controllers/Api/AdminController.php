@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash as FacadesHash;
 
+
 class AdminController extends Controller
 {
     public function index()
@@ -22,10 +23,11 @@ class AdminController extends Controller
             ->select('users.*', 'roles.name as role')
             ->get();
 
-        return ResponseFormatter::success([
-            'data' => $users,
-            'message' => 'Data user berhasil di ambil',
-        ], 200);
+        return response()->json($users);
+        // return ResponseFormatter::success([
+        //     'data' => $users,
+        //     'message' => 'Data user berhasil di ambil',
+        // ], 200);
     }
 
     //Start of function of register
@@ -99,7 +101,7 @@ class AdminController extends Controller
     {
         try {
             $user = User::find($id);
-            $user->delete();
+            return $user->delete();
             return ResponseFormatter::success([
                 'message' => 'User deleted succesfull',
             ], 'User deleted succesfull', 500);

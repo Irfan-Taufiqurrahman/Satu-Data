@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             // $table->string('user_photoProfile')->nullable();
             $table->string('password');
             $table->boolean('confirmed')->default(false);
+            $table->string('covering_letter');
+            $table->string('pic');
             $table->rememberToken();
             $table->timestamps();
         });

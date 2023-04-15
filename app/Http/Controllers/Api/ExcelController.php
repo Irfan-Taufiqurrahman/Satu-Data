@@ -22,23 +22,7 @@ class ExcelController extends Controller
     public function indexDataset(Request $request)
     {
         $dataset = Dataset::all();
-        $id = $request->input('datasetId');
-
-        if ($id) {
-            $dataset = Dataset::find($id);
-            if ($dataset) {
-                return ResponseFormatter::success([
-                    'data' => $dataset,
-                    'message' => 'Dataset Berhasil diambil',
-                ]);
-            } else {
-                return ResponseFormatter::error(404, 'Dataset tidak ditemukan');
-            }
-        }
-        return ResponseFormatter::success([
-            'data' => $dataset,
-            'message' => 'Data Berhasil diambil',
-        ]);
+        return response()->json($dataset, 200);
     }
 
     public function indexList($id)
@@ -71,6 +55,7 @@ class ExcelController extends Controller
 
         return response()->json([
             'message' => 'Indexing data excel successfull',
+            'var'   => $var_id,
             'data' => $setResult,
         ], 200);
     }

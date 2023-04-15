@@ -15,10 +15,11 @@ class CreateTopicDataTable extends Migration
     {
         Schema::create('topic_data', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('code_topic')->unique();
+            $table->integer('code_topic');
             $table->string('indicator')->unique();
             $table->string('formula')->unique();
-            $table->foreignId('code_thematic')->references('code_thematic')->on('thematic_data')->onDelete('cascade');
+            // $table->foreignId('code_thematic')->references('code_thematic')->on('thematic_data')->onDelete('cascade');
+            $table->foreignId('code_thematic')->on('thematic_data')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

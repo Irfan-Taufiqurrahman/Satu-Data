@@ -21,6 +21,8 @@ class UserController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|max:100',
             'confirm_password' => 'required|same:password',
+            'covering_letter' => 'required|max:2048',
+            'pic' => 'required|string',
             // 'confirmed' => false,
         ]);
 
@@ -31,11 +33,20 @@ class UserController extends Controller
             ], 422);
         }
 
+        // Upload covering letter
+        // if ($request->hasFile('covering_letter')) {
+        //     $file = $request->file('covering_letter');
+        //     $fileName = time() . '_' . $file->getClientOriginalName();
+        //     $path = $file->storeAs('public/covering_letters', $fileName);
+        // }     
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'role_id' => 2, // Assign role_id to 2
-            'password' => FacadesHash::make($request->password)
+            'password' => FacadesHash::make($request->password),
+            'pic' => $request->pic,
+            'covering_letter' => $request->covering_letter,
         ]);
 
         return response()->json([
@@ -63,13 +74,10 @@ class UserController extends Controller
                 throw new \Exception('Your account has not been confirmed yet');
             }
 
-            $tokenResult = $user->createToken('authToken')->plainTextToken;
+            $tokenResult = $user->createToken('user login')->plainTextToken;
             return ResponseFormatter::success([
                 "message" => "Successfully Logged in",
                 "token" => $tokenResult,
-                // 'access_token' => $tokenResult,
-                // 'token_type' => 'Bearer',
-                // 'user' => $user
             ], 'Authenticated');
         } catch (QueryException $error) {
             return ResponseFormatter::error([
