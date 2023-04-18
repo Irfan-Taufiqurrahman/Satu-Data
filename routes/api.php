@@ -44,18 +44,18 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/maindata', [TMainDataController::class, 'index']);
 Route::get('/maindata/show/{id}', [TMainDataController::class, 'show']);
 Route::post('/maindata/store', [TMainDataController::class, 'store']);
-Route::patch('/maindata/update/{id}', [TMainDataController::class, 'update']);
+Route::patch('/maindata/update/{main_code}', [TMainDataController::class, 'update']);
 Route::delete('/maindata/delete/{id}', [TMainDataController::class, 'delete']);
 
 //Theamtic Data
 Route::post('/thematicdata/store', [TThematicDataController::class, 'store']);
 Route::get('/thematicdata/{main_code}', [TThematicDataController::class, 'index']);
 Route::get('/thematicdata/show/{id}', [TThematicDataController::class, 'show']);
-Route::patch('/thematicdata/update/{id}', [TThematicDataController::class, 'update']);
+Route::patch('/thematicdata/update/{main_code}', [TThematicDataController::class, 'update']);
 Route::delete('/thematicdata/delete/{id}', [TThematicDataController::class, 'delete']);
 
 //Topic Data
-Route::get('/topicdata', [TTopicDataController::class, 'index']);
+Route::get('/topicdata/{thematic_code}', [TTopicDataController::class, 'index']);
 Route::get('/topicdata/show/{id}', [TTopicDataController::class, 'show']);
 Route::post('/topicdata/store', [TTopicDataController::class, 'store']);
 Route::patch('/topicdata/update/{id}', [TTopicDataController::class, 'update']);

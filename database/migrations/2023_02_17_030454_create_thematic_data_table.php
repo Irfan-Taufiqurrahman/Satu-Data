@@ -15,11 +15,10 @@ class CreateThematicDataTable extends Migration
     {
         Schema::create('thematic_data', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('code_thematic');
+            $table->string('code_thematic')->unique();
             $table->string('title_thematic')->unique();
             $table->foreignId('main_code')->references('code_main')->on('main_data')->onDelete('cascade');
-            $table->string('name_opd')->unique();
-            $table->string('custom_id')->unique();
+            // $table->string('custom_id')->unique();
             $table->softDeletes();
             $table->timestamps();
         });

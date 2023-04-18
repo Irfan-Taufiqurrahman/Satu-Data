@@ -45,47 +45,12 @@ class TThematicDataController extends Controller
         return response()->json($thematicData);
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'code_thematic' => 'required|int|max:100',
-    //         'title_thematic' => 'required|string',
-    //         'name_opd' => 'required|string',
-    //         'main_code' => 'required|int'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return response()->json([
-    //             'message' => 'Validation',
-    //             'error' => $validator->errors(),
-    //         ], 422);
-    //     }
-    //     $mainCode = ThematicData::find($request->main_code)->main_code;
-    //     $thematicCode = ThematicData::find($request->code_thematic)->code_thematic;
-    //     $thematicCode->$mainCode . "." . $thematicCode;
-    //     return ($thematicCode);
-    //     $theamtic = ThematicData::create(
-    //         [
-    //             'code_thematic' => $request->code_thematic,
-    //             'title_thematic' => $request->title_thematic,
-    //             'name_opd' => $request->name_opd,
-    //             'main_code' => $request->main_code,
-    //         ]
-    //     );
-
-
-    //     return response()->json([
-    //         'message' => 'Create Main Data Successful',
-    //         'data' => $theamtic,
-    //     ], 200);
-    // }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'code_thematic' => 'required|int|max:100',
             'title_thematic' => 'required|string',
-            'name_opd' => 'required|string',
             'main_code' => 'required|int'
         ]);
 
@@ -95,16 +60,17 @@ class TThematicDataController extends Controller
                 'error' => $validator->errors(),
             ], 422);
         }
-        $mainData = MainData::findOrFail($request->main_code);
-        $thematicData = new ThematicData();
-        $thematicData->code_thematic = $request->code_thematic;
-        $thematicData->title_thematic = $request->title_thematic;
-        $thematicData->name_opd = $request->name_opd;
 
-        $thematicData->mainData()->associate($mainData);
-        // This will trigger the mutator and set the custom ID
-        $thematicData->custom_id = $request->code_thematic;
-        $thematicData->main_code = $request->main_code;
+        $Main = $request->input('main_code');
+        $Thematic = $request->input('code_thematic');
+        $thematicData = new ThematicData();
+        $thematicData->title_thematic = $request->title_thematic;
+
+        $customThematicCode = $Main . "." . $Thematic;
+        $thematicData->main_code = $Main;
+        $thematicData->code_thematic = $customThematicCode;
+
+
         // return $thematicData
         $thematicData->save();
         return response()->json([
@@ -134,7 +100,6 @@ class TThematicDataController extends Controller
         $validator = Validator::make($request->all(), [
             'code_thematic' => 'required|int|max:100',
             'title_thematic' => 'required',
-            'name_opd' => 'required',
             'main_code' => 'required',
         ]);
 
@@ -146,14 +111,13 @@ class TThematicDataController extends Controller
         }
 
         $thematic = ThematicData::findOrFail($id);
-        $mainData = MainData::findOrFail($request->main_code);
-        $thematic->mainData()->associate($mainData);
+        // $mainData = MainData::findOrFail($request->main_code);
+        // $thematic->mainData()->associate($mainData);
         // This will trigger the mutator and set the custom ID
-        $thematic->custom_id = $request->code_thematic;
+        // $thematic->custom_id = $request->code_thematic;
         $thematic->update([
             'code_thematic' => $request->code_thematic,
             'title_thematic' => $request->title_thematic,
-            'name_opd' => $request->name_opd,
             'main_code' => $request->main_code
         ]);
 

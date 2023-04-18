@@ -21,18 +21,32 @@ class ThematicData extends Model
         return $this->belongsTo(MainData::class, 'main_code', 'code_thematic');
     }
 
-    public function setCustomCode(string $code_thematic): self
-    {
-        // return $this->MainData->code_main . '.' . $this->code_thematic;
-        $this->code_main = $code_thematic;
+    // public function setCustomCode(string $code_thematic): self
+    // {
+    //     // return $this->MainData->code_main . '.' . $this->code_thematic;
+    //     $this->code_main = $code_thematic;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     // Add a mutator for the custom ID
     public function setCustomIdAttribute($value)
     {
-        $mainCode = $this->mainData->code_main;
-        $this->attributes['custom_id'] = $mainCode . '.' . $value;
+        // $mainCode = $this->mainData->code_main;
+        // $this->attributes['custom_id'] = $mainCode . '.' . $value;
+        $mainCode = $this->attributes['code_main'];
+        $this->attributes['code_thematic'] = $mainCode . '.' . $value;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code_thematic;
+    }
+
+    public function setCode(string $code_thematic): self
+    {
+        $this->code_thematic = $code_thematic;
+
+        return $this;
     }
 }

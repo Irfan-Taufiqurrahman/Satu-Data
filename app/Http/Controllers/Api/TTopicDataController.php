@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\MainData;
+use App\Models\ThematicData;
 use App\Models\TopicData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,26 +13,10 @@ use Illuminate\Database\QueryException;
 
 class TTopicDataController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $thematicCode)
     {
-        $topic = TopicData::all();
-        $id = $request->input('id');
-
-        if ($id) {
-            $topic = TopicData::find($id);
-            if ($topic) {
-                return ResponseFormatter::success([
-                    'data' => $topic,
-                    'message' => 'Data Topic Berhasil diambil',
-                ]);
-            } else {
-                return ResponseFormatter::error(404, 'Data Topic tidak ditemukan');
-            }
-        }
-        return ResponseFormatter::success([
-            'data' => $topic,
-            'message' => 'Data Berhasil diambil',
-        ]);
+        $topicData = TopicData::where('thematic_code', $thematicCode)->get();
+        return response()->json($topicData);
     }
 
     public function show(Request $request, $id)
@@ -55,9 +41,10 @@ class TTopicDataController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'code_topic' => 'required|integer',
-            'indicator' => 'required|string',
-            'formula' => 'required|string',
-            'code_thematic' => 'required',
+            'kinerja_utama' => 'required|string',
+            'sumber_data' => 'required|string',
+            'penanggungjawab' => 'required|string',
+            'thematic_code' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -67,17 +54,23 @@ class TTopicDataController extends Controller
             ], 422);
         }
 
-        $topic = TopicData::create([
-            'code_topic' => $request->code_topic,
-            'code_thematic' => $request->code_thematic,
-            'indicator' => $request->indicator,
-            'formula' => $request->formula,
-        ]);
+        $Thematic = $request->input('thematic_code');
+        $Topic = $request->input('code_topic');
+        $topic = new TopicData();
 
+        $topic->kinerja_utama = $request->kinerja_utama;
+        $topic->sumber_data = $request->sumber_data;
+        $topic->penanggungjawab = $request->penanggungjawab;
+
+        $customTopicCode = $Thematic . "." . $Topic;
+        $topic->thematic_code = $request->thematic_code;
+        $topic->code_topic = $customTopicCode;
+
+        $topic->save();
         return response()->json([
-            'message' => 'Create Topic Data successful',
+            'message' => 'Topic Data Created',
             'data' => $topic,
-        ], 200);
+        ], 201);
     }
 
     public function update(Request $request, $id)
@@ -89,9 +82,9 @@ class TTopicDataController extends Controller
             ], `something went error`, 422);
         } else {
             $validator = Validator::make($request->all(), [
-                'indicator' => 'required',
-                'formula' => 'required',
-                'code_thematic' => 'required|integer',
+                'kinerja_utama' => 'required|string',
+                'sumber_data' => 'required|string',
+                'penanggungjawab' => 'required|string',
             ]);
 
             if ($validator->fails()) {
@@ -104,9 +97,9 @@ class TTopicDataController extends Controller
             $topic = TopicData::findOrFail($id);
 
             $topic->update([
-                'indicator' => $request->indicator,
-                'formula' => $request->formula,
-                'code_thematic' => $request->code_thematic,
+                'kinerja_utama' => $request->kinerja_utama,
+                'sumber_data' => $request->sumber_data,
+                'penanggungjawab' => $request->penanggungjawab,
             ]);
 
             $topic = TopicData::where('code_topic', '=', $topic->code_topic)->get();
