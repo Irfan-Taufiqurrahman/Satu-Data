@@ -38,20 +38,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dataset/excel/{id}', [ExcelController::class, 'indexList']);
     Route::get('/dataset/excel', [ExcelController::class, 'indexDataset']);
     Route::delete('/dataset/excel/delete/{id}', [ExcelController::class, 'delete']);
+    Route::get('/maindata', [TMainDataController::class, 'index']);
+    
+    Route::post('/maindata/store', [TMainDataController::class, 'store']);
+    Route::patch('/maindata/update/{main_code}', [TMainDataController::class, 'update']);
+    Route::delete('/maindata/delete/{id}', [TMainDataController::class, 'delete']);
 });
 //MemberController@index
 //Main Data
-Route::get('/maindata', [TMainDataController::class, 'index']);
-Route::get('/maindata/show/{id}', [TMainDataController::class, 'show']);
-Route::post('/maindata/store', [TMainDataController::class, 'store']);
-Route::patch('/maindata/update/{main_code}', [TMainDataController::class, 'update']);
-Route::delete('/maindata/delete/{id}', [TMainDataController::class, 'delete']);
+// Route::get('/maindata/show/{id}', [TMainDataController::class, 'show']);
 
 //Theamtic Data
 Route::post('/thematicdata/store', [TThematicDataController::class, 'store']);
 Route::get('/thematicdata/{main_code}', [TThematicDataController::class, 'index']);
-Route::get('/thematicdata/show/{id}', [TThematicDataController::class, 'show']);
-Route::patch('/thematicdata/update/{main_code}', [TThematicDataController::class, 'update']);
+// Route::get('/thematicdata/show/{id}', [TThematicDataController::class, 'show']);
+Route::patch('/thematicdata/update/{id}', [TThematicDataController::class, 'update']);
 Route::delete('/thematicdata/delete/{id}', [TThematicDataController::class, 'delete']);
 
 //Topic Data
