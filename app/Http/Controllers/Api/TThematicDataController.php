@@ -49,7 +49,7 @@ class TThematicDataController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'code_thematic' => 'required|int|max:100',
+            'code_thematic' => 'required|max:100',
             'title_thematic' => 'required|string',
             'main_code' => 'required|int'
         ]);
@@ -69,7 +69,6 @@ class TThematicDataController extends Controller
         $customThematicCode = $Main . "." . $Thematic;
         $thematicData->main_code = $Main;
         $thematicData->code_thematic = $customThematicCode;
-
 
         // return $thematicData
         $thematicData->save();
@@ -98,7 +97,7 @@ class TThematicDataController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'code_thematic' => 'required|int|max:100',
+            'code_thematic' => 'required|max:100',
             'title_thematic' => 'required',
             'main_code' => 'required',
         ]);

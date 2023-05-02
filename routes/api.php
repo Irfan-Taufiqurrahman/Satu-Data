@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Api\ExcelController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
@@ -51,7 +52,7 @@ Route::delete('/maindata/delete/{id}', [TMainDataController::class, 'delete']);
 Route::post('/thematicdata/store', [TThematicDataController::class, 'store']);
 Route::get('/thematicdata/{main_code}', [TThematicDataController::class, 'index']);
 Route::get('/thematicdata/show/{id}', [TThematicDataController::class, 'show']);
-Route::patch('/thematicdata/update/{main_code}', [TThematicDataController::class, 'update']);
+Route::patch('/thematicdata/update/{id}', [TThematicDataController::class, 'update']);
 Route::delete('/thematicdata/delete/{id}', [TThematicDataController::class, 'delete']);
 
 //Topic Data
@@ -62,6 +63,11 @@ Route::patch('/topicdata/update/{id}', [TTopicDataController::class, 'update']);
 Route::delete('/topicdata/delete/{id}', [TTopicDataController::class, 'delete']);
 
 // Route::post('/dataset/excel/import', 'App\Http\Controllers\Api\ExcelController@import');
+
+//get data external api
+Route::get('/jumlahpendudukmiskin', [ApiController::class, 'getJumlahPendudukMiskin']);
+Route::get('/ketersediaanair', [ApiController::class, 'getKetersediaanAir']);
+Route::get('/kebutuhanair', [ApiController::class, 'getKebutuhanAir']);
 
 //login + register
 Route::post('/auth/admin/register', [AdminController::class, 'register']);
