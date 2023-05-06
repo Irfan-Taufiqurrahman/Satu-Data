@@ -60,6 +60,7 @@ class ExcelController extends Controller
         ], 200);
     }
 
+    //create
     public function import(Request $request)
     {
         DB::beginTransaction();
@@ -67,7 +68,7 @@ class ExcelController extends Controller
             $validator = Validator::make($request->all(), [
                 'title' => 'required|string',
                 'name_excel' => 'required|file|mimes:xls,xlsx',
-                'description' => 'required|string|max:100',
+                'description' => 'required|string|max:1000',
             ]);
 
             if ($validator->fails()) {
@@ -146,6 +147,34 @@ class ExcelController extends Controller
         //     'message' => 'Create Dataset Successfull',
         //     'data' => $Dataset,
         // ], 200);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string',
+            'description' => 'required|string|max:1000',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation',
+                'error' => $validator->errors(),
+            ], 422);
+        }
+
+        $dataset = Dataset::findOrFail($id);
+        $dataset->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        $dataset = Dataset::where('title', '=', $dataset->title)->get();
+
+        return response()->json([
+            'message' => 'Update Thematic Data Successful',
+            'data' => $dataset,
+        ], 200);
     }
 
     public function delete($id)

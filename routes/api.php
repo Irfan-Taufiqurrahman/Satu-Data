@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dataset/excel/{id}', [ExcelController::class, 'indexList']);
     Route::get('/dataset/excel', [ExcelController::class, 'indexDataset']);
     Route::delete('/dataset/excel/delete/{id}', [ExcelController::class, 'delete']);
+    Route::patch('/dataset/excel/edit/{id}', [ExcelController::class, 'update']);
 });
 //MemberController@index
 //Main Data
