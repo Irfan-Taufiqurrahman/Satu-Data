@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Ods\Content;
 
 class ExcelController extends Controller
 {
@@ -58,6 +59,24 @@ class ExcelController extends Controller
             'var'   => $var_id,
             'data' => $setResult,
         ], 200);
+    }
+
+    //testing
+    public function getValues($id_dataset, $id_variable, $value_id)
+    {
+        // dump($id_dataset);
+        // exit;
+        // Cast variables to integers
+
+        // Query untuk mengambil data
+        $data = DB::table('values')
+            ->where('id_dataset', '=', $id_dataset)
+            ->where('id_variable', '=', $id_variable)
+            ->where('value_id', '=', $value_id)
+            ->pluck('content')
+            ->first();
+
+        return $data;
     }
 
     //create
@@ -143,10 +162,6 @@ class ExcelController extends Controller
                 'error' => $e->getMessage(),
             ], 'Error Uploading data Excel.');
         }
-        // return response()->json([
-        //     'message' => 'Create Dataset Successfull',
-        //     'data' => $Dataset,
-        // ], 200);
     }
 
     public function update(Request $request, $id)
