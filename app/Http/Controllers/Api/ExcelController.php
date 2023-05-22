@@ -78,7 +78,6 @@ class ExcelController extends Controller
 
         return $data;
     }
-
     //create
     public function import(Request $request)
     {
@@ -89,7 +88,6 @@ class ExcelController extends Controller
                 'name_excel' => 'required|file|mimes:xls,xlsx',
                 'description' => 'required|string|max:1000',
             ]);
-
             if ($validator->fails()) {
                 return response()->json([
                     'message' => 'Validation',
@@ -115,7 +113,6 @@ class ExcelController extends Controller
 
             $reader = new Xlsx();
             $spreadsheet = $reader->load($path);
-
             // $sheetData = $spreadsheet->getActiveSheet()->toArray();
 
             $sheet          = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);

@@ -45,7 +45,7 @@ class ApiController extends Controller
         foreach ($filteredData as $item) {
             $jumlah[] = $item['jumlah'];
         }
-
+        //responseKetersedianair
         return $jumlah;
     }
 
@@ -64,5 +64,81 @@ class ApiController extends Controller
             $jumlah[] = $item['jumlah'];
         }
         return $jumlah;
+        //response kebutuhanAir
+    }
+
+    public function getData()
+    {
+        $jumlahPendudukMiskin = $this->getJumlahPendudukMiskin();
+        $ketersediaanAir = $this->getKetersediaanAir();
+        $kebutuhanAir = $this->getKebutuhanAir();
+
+        $atas = [
+            [
+                'id' => 1,
+                'name' => 'Ketersediaan Listrik',
+                'value' => 24,
+            ],
+            [
+                'id' => 2,
+                'name' => 'RT Pengguna listrik',
+                'value' => 50,
+            ],
+            [
+                'id' => 3,
+                'name' => 'Volume ketersediaan air baku',
+                'value' => 85,
+            ],
+            [
+                'id' => 4,
+                'name' => 'Panjang jaringan irigrasi dalam kondisi baik',
+                'value' => 36,
+            ],
+            [
+                'id' => 5,
+                'name' => 'Jumlah Penduduk Miskin',
+                'value' => $jumlahPendudukMiskin,
+            ],
+            [
+                'id' => 6,
+                'name' => 'Jumlah Ketersediaan Air',
+                'value' => $ketersediaanAir,
+            ],
+        ];
+
+        $bawah = [
+            [
+                'id' => 1,
+                'name' => 'Kebutuhan Listrik',
+                'value' => 5,
+            ],
+            [
+                'id' => 2,
+                'name' => 'Jumlah rumah tangga',
+                'value' => 8,
+            ],
+            [
+                'id' => 3,
+                'name' => 'Volume kebutuhan air baku',
+                'value' => 10,
+            ],
+            [
+                'id' => 4,
+                'name' => 'Panjang jaringan irigrasi total',
+                'value' => 40,
+            ],
+            [
+                'id' => 5,
+                'name' => 'Jumlah kebutuhan Air',
+                'value' => $kebutuhanAir,
+            ],
+        ];
+
+        $result = [
+            'atas' => $atas,
+            'bawah' => $bawah,
+        ];
+
+        return response()->json($result);
     }
 }

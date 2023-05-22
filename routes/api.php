@@ -71,6 +71,8 @@ Route::get('/jumlahpendudukmiskin', [ApiController::class, 'getJumlahPendudukMis
 Route::get('/ketersediaanair', [ApiController::class, 'getKetersediaanAir']);
 Route::get('/kebutuhanair', [ApiController::class, 'getKebutuhanAir']);
 
+Route::get('/datamentah', [ApiController::class, 'getData']);
+
 //login + register
 Route::post('/auth/admin/register', [AdminController::class, 'register']);
 Route::post('/auth/register', [UserController::class, 'register']);
