@@ -21,13 +21,6 @@ class TopicData extends Model
         return $this->belongsTo(ThematicData::class, 'thematic_code', 'code_topic');
     }
 
-    // public function setCustomCode(string $code_thematic): self
-    // {
-    //     // return $this->MainData->code_main . '.' . $this->code_thematic;
-    //     $this->code_main = $code_thematic;
-
-    //     return $this;
-    // }
     public function setCustomIdAttribute($value)
     {
         // $thematicCode = $this->ThematicData->code_thematic;

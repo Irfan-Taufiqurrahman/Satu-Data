@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ExcelController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\TMainDataController;
+use App\Http\Controllers\Api\TSubTopicController;
 use App\Http\Controllers\Api\TThematicDataController;
 use App\Http\Controllers\Api\TTopicDataController;
 use Illuminate\Http\Request;
@@ -64,12 +65,20 @@ Route::post('/topicdata/store', [TTopicDataController::class, 'store']);
 Route::patch('/topicdata/update/{id}', [TTopicDataController::class, 'update']);
 Route::delete('/topicdata/delete/{id}', [TTopicDataController::class, 'delete']);
 
+//SubTopic Data
+Route::get('subtopicdata/{topic_code}', [TSubTopicController::class, 'index']);
+Route::get('subtopicdata/{id}', [TSubTopicController::class, 'show']);
+Route::post('subtopicdata/store', [TSubTopicController::class, 'store']);
+Route::patch('subtopicdata/update/{id}', [TSubTopicController::class, 'update']);
+Route::delete('subtopicdata/delete/{id}', [TSubTopicController::class, 'delete']);
+
 // Route::post('/dataset/excel/import', 'App\Http\Controllers\Api\ExcelController@import');
 
 //get data external api
 Route::get('/jumlahpendudukmiskin', [ApiController::class, 'getJumlahPendudukMiskin']);
 Route::get('/ketersediaanair', [ApiController::class, 'getKetersediaanAir']);
 Route::get('/kebutuhanair', [ApiController::class, 'getKebutuhanAir']);
+Route::get('/pendudukKK', [ApiController::class, 'getJumlahPendudukKK']);
 
 Route::get('/datamentah', [ApiController::class, 'getData']);
 
