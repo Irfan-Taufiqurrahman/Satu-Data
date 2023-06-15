@@ -81,6 +81,8 @@ Route::get('/kebutuhanair', [ApiController::class, 'getKebutuhanAir']);
 Route::get('/pendudukKK', [ApiController::class, 'getJumlahPendudukKK']);
 
 Route::get('/datamentah', [ApiController::class, 'getData']);
+Route::post('/perhitungan', [ApiController::class, 'store']);
+Route::get('/perhitunganAll', [ApiController::class, 'showPerhitungan']);
 
 //login + register
 Route::post('/auth/admin/register', [AdminController::class, 'register']);

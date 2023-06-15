@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\HasilPerhitungan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
@@ -89,11 +90,23 @@ class ApiController extends Controller
         //response kebutuhanAir
     }
 
+    public function store(Request $request){
+        $dataArray = collect($request)->toArray();
+        $data = HasilPerhitungan::create($dataArray);
+        return response()->json($data);
+    }
+
+    public function showPerhitungan(){
+        $result = HasilPerhitungan::all();
+
+        return response()->json($result);
+    }
+
     public function getData()
     {
-        $jumlahPendudukMiskin = $this->getJumlahPendudukMiskin();
-        $ketersediaanAir = $this->getKetersediaanAir();
-        $kebutuhanAir = $this->getKebutuhanAir();
+        // $jumlahPendudukMiskin = $this->getJumlahPendudukMiskin();
+        // $ketersediaanAir = $this->getKetersediaanAir();
+        // $kebutuhanAir = $this->getKebutuhanAir();
         // $jumlahPendudukKK = $this->getJumlahPendudukKK();
 
         $atas = [
@@ -130,7 +143,7 @@ class ApiController extends Controller
             [
                 'id' => 7,
                 'name' => 'Jumlah Ketersediaan Air 2021',
-                'value' => $ketersediaanAir,
+                'value' => 7817811,
             ],
             [
                 'id' => 8,
@@ -174,7 +187,7 @@ class ApiController extends Controller
             [
                 'id' => 7,
                 'name' => 'Jumlah kebutuhan Air 2021',
-                'value' => $kebutuhanAir,
+                'value' => 101901,
             ],
             [
                 'id' => 8,
